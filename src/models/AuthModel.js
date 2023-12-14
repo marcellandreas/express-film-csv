@@ -8,7 +8,6 @@ class User {
 
   registerUser(userData, callback) {
     const { username, password, full_name, email, role } = userData;
-    // Generate user code based on role
     const query =
       "INSERT INTO user (username, password, full_name, email, role ) VALUES (?, ?, ?, ?, ?)";
     this.connection.query(
@@ -27,20 +26,6 @@ class User {
       callback(error, results[0]);
     });
   }
-
-  // Metode untuk mengedit data pengguna berdasarkan id_user
-  // editUser(id_user, userData, callback) {
-  //   const { username, role, full_name, email } = userData;
-  //   const query =
-  //     "UPDATE user SET username = ?, full_name = ?, email = ?, role = ? WHERE id_user = ?";
-  //   this.connection.query(
-  //     query,
-  //     [username, full_name, email, role, id_user],
-  //     (error, results) => {
-  //       callback(error, results);
-  //     }
-  //   );
-  // }
 
   editUser(id_user, username, full_name, email, role, callback) {
     const query = `UPDATE user SET username = ?, full_name = ?, email = ?, role = ? WHERE id_user = ?`;
@@ -137,47 +122,6 @@ class User {
       }
     );
   }
-
-  // Metode untuk mengubah kata sandi pengguna
-  // changeUserPassword(id_user, oldPassword, newPassword, callback) {
-  //   // Dapatkan kata sandi lama dari database berdasarkan id_user
-  //   const getPasswordQuery = "SELECT password FROM user WHERE id_user = ?";
-  //   this.connection.query(getPasswordQuery, [id_user], (error, results) => {
-  //     if (error) {
-  //       return callback(error, null);
-  //     }
-
-  //     if (results.length === 0) {
-  //       return callback(null, { success: false, message: "User not found" });
-  //     }
-
-  //     const storedPassword = results[0].password;
-
-  //     // Bandingkan kata sandi lama yang dimasukkan dengan kata sandi yang tersimpan
-  //     bcrypt.compare(oldPassword, storedPassword, (compareError, compareResult) => {
-  //       if (compareError) {
-  //         return callback(compareError, null);
-  //       }
-
-  //       if (!compareResult) {
-  //         return callback(null, { success: false, message: "Incorrect old password" });
-  //       }
-
-  //       // Hash kata sandi baru sebelum menyimpannya di database
-  //       bcrypt.hash(newPassword, 10, (hashError, hashedPassword) => {
-  //         if (hashError) {
-  //           return callback(hashError, null);
-  //         }
-
-  //         // Update kata sandi baru di database
-  //         const updatePasswordQuery = "UPDATE user SET password = ? WHERE id_user = ?";
-  //         this.connection.query(updatePasswordQuery, [hashedPassword, id_user], (updateError, updateResult) => {
-  //           callback(updateError, { success: true, message: "Password updated successfully" });
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
 }
 
 module.exports = User;
